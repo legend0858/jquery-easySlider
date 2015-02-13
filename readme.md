@@ -1,6 +1,5 @@
 jQuery.easySlider-ly
 ------------------------
-<br />
 
 一个比较简单的Slider组件，本人自用
 
@@ -15,7 +14,7 @@ jQuery.easySlider-ly
 
 #####Kf修改版：https://github.com/kflorence/jquery-easySlider
 
-1. 作者很用心的写了注释，不同逻辑之间加了空行，很贴心。
+> 1. 作者很用心的写了注释，不同逻辑之间加了空行，很贴心。
 2. 对于问题2，作者的解决方案是将序号和按钮的逻辑分离，序号由num控制，增加prevnext控制按钮的显示
 3. 添加insertAfter参数，可以控制方向按钮的html插入位置
 4. 只有">ul>li"可以作为item，排除其它li引起的bug
