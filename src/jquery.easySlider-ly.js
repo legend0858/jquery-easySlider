@@ -31,28 +31,18 @@
     {
         // default configuration properties
         var defaults = {
-            prevId:         'prevBtn',
-            prevText:       'Previous',
-            nextId:         'nextBtn',
-            nextText:       'Next',
-            controlsShow:   true,
-            controlsBefore: '',
-            controlsAfter:  '',
+            controlsBefore: '',             //控制器之前加入的html代码
+            controlsAfter:  '',             //控制器之后加入的html代码
             controlsFade:   true,
-            insertAfter:    true,
-            firstId:        'firstBtn',
-            firstText:      'First',
-            firstShow:      false,
-            lastId:         'lastBtn',
-            lastText:       'Last',
-            lastShow:       false,
             vertical:       false,
-            speed:          800,
+            duration:       800,
             ease:           'swing',
             auto:           false,
             pause:          2000,
             continuous:     false,
             prevNext:       true,
+            prevId:         'prevBtn',
+            nextId:         'nextBtn',
             numeric:        false,
             numericId:      'controls'
         };
@@ -68,24 +58,31 @@
             var li = ul.children("li");
 
             var s = li.length;
-            var w = obj.width();
-            var h = obj.height();
-
             var t = 0;
             var ts = s-1;
             var clickable = true;
 
+            // 方案1：子元素宽高为准
+            var w = li.width();
+            var h = li.height();
+            obj.width(w);
+            obj.height(h);
+
+            // 方案2：父元素宽高为准
+            /*var w = obj.width();
+             var h = obj.height();
+             li.each(function() {
+             if(options.vertical) $(this).height(h);
+             else $(this).width(w);
+             });*/
+
             // Set obj overflow to hidden
             obj.css("overflow","hidden");
 
-            // Set width/height of list items based on width/height of obj
-            li.each(function() {
-               if(options.vertical) $(this).height(h);
-                else $(this).width(w);
-            });
-
             // Float items to the left
-            li.css('float', 'left');
+            if (!options.vertical) {
+                li.css('float', 'left');
+            }
 
             // Set width/height of ul
             if(options.vertical) ul.height(s*h);
@@ -106,57 +103,41 @@
                 }
             };
 
-            if(options.controlsShow)
-            {
+            //创建控制器的过程
+            if (true) {
                 var html = options.controlsBefore;
-                if(options.numeric){
-                    html += '<ol id="'+ options.numericId +'"></ol>';
-                }
-                if(options.firstShow) {
-                    html += '<span id="'+ options.firstId +'"><a href="#">'+ options.firstText +'</a></span>';
-                }
-                if(options.prevNext){
-                    html += '<span id="'+ options.prevId +'"><a href="#">'+ options.prevText +'</a></span>';
-                    html += '<span id="'+ options.nextId +'"><a href="#">'+ options.nextText +'</a></span>';
-                }
-                if(options.lastShow) {
-                    html += '<span id="'+ options.lastId +'"><a href="#">'+ options.lastText +'</a></span>';
-                }
-                html += options.controlsAfter;
 
-                if (options.insertAfter) $(obj).after(html);
-                else $(obj).before(html);
-            };
+                if (options.numeric) {
+                    html += '<ol id="' + options.numericId + '" class="es-paging"></ol>';
+                }
 
-            if(options.numeric)
-            {
-                for(var i=0;i<s;i++)
-                {
-                    $(document.createElement("li"))
-                        .attr('id',options.numericId + (i+1))
-                        .html('<a rel="'+ i +'" href="#"><span>'+ (i+1) +'</span></a>')
-                        .appendTo($("#"+ options.numericId))
-                        .click(function(){
-                            animate($("a",$(this)).attr('rel'),true);
-                            return false;
-                        });
+                if (options.prevNext) {
+                    html += ' <span id="' + options.prevId + '" class="es-prev"><a href=\"javascript:void(0);\">Previous</a></span>';
+                    html += ' <span id="' + options.nextId + '" class="es-next"><a href=\"javascript:void(0);\">Next</a></span>';
                 };
-            }
 
-            if(options.prevNext)
-            {
-                $("a","#"+options.nextId).click(function(){
-                    animate("next",true); return false;
-                });
-                $("a","#"+options.prevId).click(function(){
-                    animate("prev",true); return false;
-                });
-                $("a","#"+options.firstId).click(function(){
-                    animate("first",true); return false;
-                });
-                $("a","#"+options.lastId).click(function(){
-                    animate("last",true); return false;
-                });
+                html += options.controlsAfter;
+                $(obj).after(html);
+
+                if (options.numeric) {
+                    for (var i = 0; i < s; i++) {
+                        $(document.createElement("li"))
+                            .attr('id', options.numericId + (i + 1))
+                            .html('<a rel=' + i + ' href=\"javascript:void(0);\">' + (i + 1) + '</a>')
+                            .appendTo($("#" + options.numericId))
+                            .click(function () {
+                                animate(parseInt($('a', this).attr('rel')), true);
+                            });
+                    };
+                }
+                if (options.prevNext) {
+                    $("#" + options.nextId).click(function () {
+                        animate("next", true);
+                    });
+                    $("#" + options.prevId).click(function () {
+                        animate("prev", true);
+                    });
+                }
             };
 
             function setCurrent(i)
@@ -204,15 +185,13 @@
                             break;
                     };
 
-                    var diff = Math.abs(ot-t);
-                    var speed = diff*options.speed;
                     if(!options.vertical) {
                         p = (t*w*-1);
                         ul.animate(
                             { marginLeft: p },
                             {
                                 queue:false,
-                                duration:speed,
+                                duration:options.duration,
                                 easing:options.ease,
                                 complete:adjust
                             }
@@ -223,7 +202,7 @@
                             { marginTop: p },
                             {
                                 queue:false,
-                                duration:speed,
+                                duration:options.duration,
                                 easing:options.ease,
                                 complete:adjust
                             }
@@ -250,14 +229,14 @@
                     if(options.auto && dir=="next" && !clicked){;
                         timeout = setTimeout(function(){
                             animate("next",false);
-                        },diff*options.speed+options.pause);
+                        },options.duration+options.pause);
                     };
 
                 };
             };
             // init
             var timeout;
-            if(options.auto){;
+            if(options.auto){
                 timeout = setTimeout(function(){
                     animate("next",false);
                 },options.pause);
@@ -267,7 +246,6 @@
 
             if(!options.continuous && options.controlsFade){
                 $("a","#"+options.prevId).hide();
-                $("a","#"+options.firstId).hide();
             };
         });
     };
