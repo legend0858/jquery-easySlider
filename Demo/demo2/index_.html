@@ -1,0 +1,49 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Easy Slider 1.7.6 Demo</title>
+    <link rel="stylesheet" href="css/styles.css" media="screen"/>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/easySlider-ly.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#slider").easySlider({
+                auto: true,
+                continuous: true,
+                vertical: false,
+                speed: 800,
+                pause: 6000,
+                numeric: true
+            });
+        });
+    </script>
+</head>
+<body>
+<section>
+    <div id="slider">
+        <ul>
+            <li><img src="images/slide_01.jpg" alt="slide_01" width="850" height="500"/></li>
+            <li><img src="images/slide_02.jpg" alt="slide_02" width="850" height="500"/></li>
+            <li><img src="images/slide_03.jpg" alt="slide_03" width="850" height="500"/></li>
+            <li><img src="images/slide_04.jpg" alt="slide_04" width="850" height="500"/></li>
+        </ul>
+    </div>
+</section>
+<section id="code">
+    <code>
+        $(document).ready(function(){<br/>
+        &nbsp;&nbsp;$("#slider").easySlider({<br/>
+        &nbsp;&nbsp;&nbsp;auto: true, <br/>
+        &nbsp;&nbsp;&nbsp;continuous: true,<br/>
+        &nbsp;&nbsp;&nbsp;vertical:false,<br/>
+        &nbsp;&nbsp;&nbsp;allControls: true,<br/>
+        &nbsp;&nbsp;&nbsp;speed:800,<br/>
+        &nbsp;&nbsp;&nbsp;pause:6000,<br/>
+        &nbsp;&nbsp;&nbsp;nextClass: "nextButton",<br/>
+        &nbsp;&nbsp;&nbsp;prevClass: "prevButton"<br/>
+        &nbsp;&nbsp;});<br/>
+        });<br/>
+    </code>
+</section>
+</body>
+</html>
