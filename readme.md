@@ -26,7 +26,7 @@ jQuery.easySlider-ly
 
 > 程序改动很大，代码量扩充了一倍，修复了height的问题，但是margin-left的两处问题依然没有修复
 
-#####http://allur.co/freebies/jquery-plugins/easyslider-1-7-6-a-small-update/
+#####3circle修改版：http://allur.co/freebies/jquery-plugins/easyslider-1-7-6-a-small-update/
 
 > 通过添加allControls参数，实现了序号与方向按钮共存，但很显然是没怎么用心改，实现是通过添加一个elseif分支，代码太过于冗余，未修复问题1
 
